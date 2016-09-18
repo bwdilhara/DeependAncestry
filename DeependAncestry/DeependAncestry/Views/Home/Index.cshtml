@@ -17,12 +17,14 @@
         </div>
         <div class="form-inline">
             Gender: <label class="checkbox-inline">
-                @Html.CheckBox("chkMale", ViewBag.GenderM == "M" ? true : false) Male
+                @Html.CheckBox("chkMale", (bool)ViewBag.GenderM) Male
             </label>
             <label class="checkbox-inline">
-                @Html.CheckBox("chkFemale", ViewBag.GenderF == "F" ? true : false) Female
+                @Html.CheckBox("chkFemale", (bool)ViewBag.GenderF) Female
             </label>
         </div>
+        <script>
+        </script>
 
         <table class="table">
             <tr>
@@ -72,7 +74,7 @@
             <div id='Paging'>
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchString = ViewBag.CurrentFilter, gender = ViewBag.Gender }))
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchString = ViewBag.CurrentFilter }))
             </div>
         }
     </div>

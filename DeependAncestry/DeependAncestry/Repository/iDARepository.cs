@@ -15,7 +15,7 @@ namespace DeependAncestry.Repository
 
         public DataSet GetPersonData()
         {
-            return base.GetPersonData();
+            return this.GetPersonData();
         }
     }
 }

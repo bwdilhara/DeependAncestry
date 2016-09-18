@@ -14,45 +14,50 @@ namespace DeependAncestry.Controllers
     {
         DARepository repo = new iDARepository("/App_Data/data_large.json");
 
-        public ActionResult Index(string searchString, string gender, int? page)
+        public ActionResult Index(string searchString, bool? chkMale,bool? chkFemale, int? page)
         {
-            
-        //public HomeController(iDARepository postRepository)
-        //{
-        //    _iDARepository = postRepository;
-        //}
-        //Blank list
-        List<Person> persons = new List<Person>();
+            //Blank list
+            List<Person> persons = new List<Person>();
             IPagedList<Person> items = new PagedList<Person>(persons, 1, 10);
-
-            //public HomeController()
-            ////{
-            //using (StreamReader r = new StreamReader(Server.MapPath("~/App_Data/data_large.json")))
-            //{
-            //    string json = r.ReadToEnd();
-            //    _DataSet = JsonConvert.DeserializeObject<DataSet>(json);
-            //}
-            //Json data from the repo
-            //DARepository repo = new iDARepository("/App_Data/data_large.json");
-            DataSet _DataSet= repo.GetPersonData();
-
-            int pageSize = 10;
+                        DataSet _DataSet = repo.GetPersonData();
+                        int pageSize = 10;
             int pageIndex = 1;
+            List<string> gender = new List<string>();
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-          
-            ViewBag.CurrentFilter = searchString;
-            ViewBag.Gender = gender;
 
-            //Personplace ro = JsonConvert.DeserializeObject<Personplace>(json);
+            ViewBag.CurrentFilter = searchString;
+            
+            //Setting the Gender
+            if (chkMale.HasValue)
+            {
+                ViewBag.GenderM = (bool)chkMale;
+                if (ViewBag.GenderM)
+                    gender.Add ("M");
+            }
+            else
+            {
+                ViewBag.GenderM = false;
+            }
+
+            if (chkFemale.HasValue)
+            {
+                ViewBag.GenderF = (bool)chkFemale;
+                if(ViewBag.GenderF)
+                gender.Add("F");
+            }
+            else
+            {
+                ViewBag.GenderF = false;
+            }
 
             if (searchString != null && searchString != "")
             {
-                /* IPagedList<Person> */
+                /* filtering person based on name and gender */
                 items = (from ppl in _DataSet.Tables["people"].AsEnumerable()
                          join pl in _DataSet.Tables["places"].AsEnumerable()
                          on Convert.ToInt32(ppl["place_id"]) equals Convert.ToInt32(pl["id"])
                          where ((string)ppl["name"]).ToLower().Contains(searchString.ToLower())
-                         where (gender == null || gender.Length > 1 || (string)ppl["gender"] == gender.ToUpper().Substring(1))
+                         where (gender.Count ==0 || gender.Contains((string)ppl["gender"]))
                          select new Person
                          {
                              Id = Convert.ToInt32(ppl["id"]),
@@ -63,24 +68,10 @@ namespace DeependAncestry.Controllers
                              Place = (string)pl["name"],
                              Level = ppl["level"] == DBNull.Value ? 0 : Convert.ToInt32(ppl["level"])
                          }).ToPagedList(pageIndex, pageSize);
-                //}b
             }
 
             return View(items);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
