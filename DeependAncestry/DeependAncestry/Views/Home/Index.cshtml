@@ -14,6 +14,7 @@
         <div class="form-inline">
             @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
             <input type="submit" class="btn btn-default" value="Search" id="btnSubmit" />
+            <a href="#demo"  data-toggle="collapse">Advanced search</a>
         </div>
         <div class="form-inline">
             Gender: <label class="checkbox-inline">
@@ -22,6 +23,19 @@
             <label class="checkbox-inline">
                 @Html.CheckBox("chkFemale", (bool)ViewBag.GenderF) Female
             </label>
+           </div>
+        <div class="form-inline">
+
+            
+            <div id="demo" class="collapse">
+                Direction: <label class="radio-inline">
+                    @Html.RadioButton("rdMale", true, new { @name = "radioGroup" }) Ancestors
+                </label>
+                <label class="radio-inline">
+                    @Html.RadioButton("rdFemale", false, new { @name = "radioGroup" }) Descendants
+                </label>
+            </div>
+            
         </div>
         <script>
         </script>
