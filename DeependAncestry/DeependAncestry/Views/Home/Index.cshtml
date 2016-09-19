@@ -29,10 +29,10 @@
             
             <div id="demo" class="collapse">
                 Direction: <label class="radio-inline">
-                    @Html.RadioButton("rdMale", true, new { @name = "radioGroup" }) Ancestors
+                    @Html.RadioButton("radioGroup", false, new { @id = "rdAncestors" }) Ancestors
                 </label>
                 <label class="radio-inline">
-                    @Html.RadioButton("rdFemale", false, new { @name = "radioGroup" }) Descendants
+                    @Html.RadioButton("radioGroup", false, new { @id = "rdDescendants" }) Descendants
                 </label>
             </div>
             
