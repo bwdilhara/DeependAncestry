@@ -7,15 +7,12 @@ using System.Web;
 
 namespace DeependAncestry.Repository
 {
-    public class iDARepository: DARepository
+    public interface iDARepository
     {
-        public iDARepository(string jsonFilePath) : base(jsonFilePath)
-        {
-        }
+        //public iDARepository(string jsonFilePath) : base(jsonFilePath)
+        //{
+        //}
 
-        public DataSet GetPersonData()
-        {
-            return this.GetPersonData();
-        }
+         DataSet GetPersonData();
     }
 }

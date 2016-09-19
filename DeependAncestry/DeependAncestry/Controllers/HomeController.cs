@@ -12,8 +12,14 @@ namespace DeependAncestry.Controllers
 {
     public class HomeController : Controller
     {
-        DARepository repo = new iDARepository("/App_Data/data_small.json");
-     
+        private iDARepository repo;
+        //iDARepository repo = new DARepository("/App_Data/data_small.json");
+
+
+        public HomeController(iDARepository personRepository)
+        {
+            this.repo = personRepository;
+        }
 
         public ActionResult Index(string searchString, bool? chkMale,bool? chkFemale, int? page)
         {
